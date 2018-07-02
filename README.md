@@ -25,5 +25,5 @@ Objectifs qu'il reste a réaliser :
 - Page d'administration
 
 
--Creation d'une appli du même nom
+- Creation d'une appli du même nom
 
