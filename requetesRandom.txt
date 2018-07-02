@@ -1,0 +1,110 @@
+afficher tous les sondages créés par un user :
+  SELECT * FROM polls WHERE creator = ?
+
+afficher toutes les réponses d'un sondages
+  SELECT * FROM answers WHERE pollid = ?
+
+afficher le nombre de votes des réponses d'un sondage
+  SELECT answerId,count(distinct userid) as nbVote FROM votes,answers WHERE pollid = ? AND answerId = answers.id GROUP BY answerid
+
+afficher tous les sondages où un utilisateur à voté
+  SELECT * WHERE
+
+afficher le nombre de vote total d'un poll
+SELECT count(*) as nbtotal FROM votes,answers WHERE answerId = answers.id and pollid = ?
+
+
+
+ajouter un utilisateur
+  INSERT INTO user(username, password, email) VALUES (?,?,?)
+
+ajouter un sondage
+  INSERT INTO polls (id, creatorId, question) VALUES (?,?,?)
+
+ajouter une réponse à un sondage
+  INSERT INTO answers (pollId, answer) VALUES (?,?)
+
+ajouter un vote à une réponse
+  INSERT INTO votes (userID, answerId) VALUES (?,?)
+
+supprimer une réponse, et ses votes associés
+  DELETE FROM
+
+
+
+
+
+
+Organisation BDD :
+
+V   user    : id(int)   name(char*)     username(char*)   mdp(char*)            mail(char*)
+CREATE TABLE `user` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `username` varchar(25) NOT NULL,
+ `password` varchar(100) NOT NULL,
+ `email` varchar(255) NOT NULL,
+ `name` varchar(255) NOT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1
+
+V   polls   : id(char*) creatorid(int)  title(char*)      displayresult(bool)   enddate(TimeStamp||NULL)
+CREATE TABLE `polls` (
+ `id` varchar(255) NOT NULL,
+ `creatorId` int(25) NOT NULL,
+ `title` varchar(255) NOT NULL,
+ `displayresult` tinyint(1) NOT NULL DEFAULT '0',
+ `enddate` date DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `id` (`id`),
+ KEY `creatorId` (`creatorId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+V   modules  : id(int)   pollId(char*)   question(char*)
+CREATE TABLE `modules` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `pollId` varchar(255) NOT NULL,
+ `question` varchar(255) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+V   options : id(int)   moduleId(int)   type(enum)        maxrep(int[default:0])                         type: enum[Radio, Check, text, Doodle]
+CREATE TABLE `options` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `moduleId` int(11) NOT NULL,
+ `type` enum('radio','check','text','doodle') NOT NULL DEFAULT 'check',
+ `maxrep` int(255) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+V   answers : id(int)   moduleId(int)   data(char*)
+CREATE TABLE `answers` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `moduleId` varchar(255) NOT NULL,
+ `data` varchar(255) NOT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `id` (`id`),
+ KEY `pollId` (`moduleId`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1
+
+V   votes   : id(int)   userId(int)     answerId(int)
+CREATE TABLE `votes` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `userId` int(25) NOT NULL,
+ `answerId` int(25) NOT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `id` (`id`),
+ KEY `userId` (`userId`,`answerId`),
+ KEY `answerId` (`answerId`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1
+
+
+V   friends  : id(int)   f1(int)  f2(int)  status(enum)          enum: pending, accepted
+
+CREATE TABLE `friends` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`friend1` int(11) NOT NULL,
+`friend2` int(11) NOT NULL,
+`status` enum('pending','accepted','','') NOT NULL DEFAULT 'pending',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1
