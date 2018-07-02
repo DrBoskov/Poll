@@ -15,9 +15,9 @@ Objectifs qu'il reste a réaliser :
 -> Sondage publique a grande échelle voir quelque chose comme google rewards
 -> Supression des sondages apres un temps déterminé
 
--Rendre l'accès et la création de sondages possibles sans compte
+- Rendre l'accès et la création de sondages possibles sans compte
 
--Options d'amis fonctionnel
+- Options d'amis fonctionnel
 ->Possiblité d'envoie de mail
 ->
 
